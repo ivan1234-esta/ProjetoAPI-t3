@@ -22,7 +22,7 @@ export class UsuarioController{
     //POST - Recebe dados, pode ou não retornar informações, mas em geral recebe dados e retorna uma resposta
     //GET - Recebe apenas parametros, mas retorna dados variados, normalmente utilizado para consulta de dados
     //PUT - recebe dados, utilizado para fazer alterações de registros
-    //DELETE - recebe dados, utilizado para remover registros
+    //DELETE - recebe dados, utilizado para remover registros ----
 
 
     @Post()//essa linha, seria um decorator para definir que a função é um metodo POST

@@ -46,7 +46,9 @@ export class UsuarioController{
         //chamada da função de login
         var retornoLogin = this.Usuarios.Login(dadosLogin.email,dadosLogin.senha)
         //criação de retorno, onde caso a resposta seja true é retornado login efetuado, caso seja false, retorna email ou senha invalidos, também é retornado o usuário logado
-        var retorno = new RetornoUsuarioDTO(retornoLogin.status?'Login efetuado, sucesso':'Email ou senha invalidos',retornoLogin.usuario);        
+
+        var retorno = new RetornoUsuarioDTO(retornoLogin.status?'Login efetuado, sucesso':'Email ou senha invalidos!',retornoLogin.usuario);        
+
         return retorno;       
         
     }

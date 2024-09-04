@@ -12,14 +12,16 @@ import { loginUsuarioDTO } from "./dto/loginUsuario.dto";
 import { alteraUsuarioDTO } from "./dto/alteraUsuario.dto";
 import { ApiCreatedResponse, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { promises } from "dns";
+import Datas from "src/utils/data";
 
 @ApiTags('usuario')
 //decorator responsável por definir que essa classe é um controller, dentro do parenteses é necessário informar o URL desse controller
 @Controller('/usuarios')
 export class UsuarioController{
+    objDatas: Datas;
     //controller com injeção de dependencia da classe de usuários armazenados
     constructor(private Usuarios : UsuariosArmazenados){
-
+        this.objDatas = new Datas();
     }
 
     //POST - Recebe dados, pode ou não retornar informações, mas em geral recebe dados e retorna uma resposta
@@ -37,7 +39,7 @@ export class UsuarioController{
         //criação do objeto de usuário, aqui é criado um objeto específico desse usuário 
         var novoUsuario = new UsuarioEntity(uuid(), dadosUsuario.nome, dadosUsuario.idade, 
                                             dadosUsuario.cidade, dadosUsuario.email,
-                                            dadosUsuario.telefone, dadosUsuario.senha
+                                            dadosUsuario.telefone,this.objDatas.dataAtual(), dadosUsuario.senha
         )
         //gravação do usuário, aqui é inserido no DM o usuário criado anteriormente
         this.Usuarios.AdicionarUsuario(novoUsuario);
@@ -74,6 +76,20 @@ export class UsuarioController{
         
     }
 
+
+    @Put('/assinatura/:dias/:id')//linha que define o método vai ser de alteração (put), nesse caso também é especificado um parametro na URL, por onde vai chegar o id do usuário
+    @ApiResponse({status: 200, description:'Retorna que houve sucesso na alteração'})
+    @ApiResponse({status: 500, description:'Retorna que houve erro na alteração.'})
+    @ApiResponse({status: 400, description:'Retorna que há algum dado inválido na requisição.'})
+    async adicionaAssinatura(@Param('id') id: string,@Param('dias') dias: string){//aqui é definido que vai receber dados tanto do body quanto da URL(param)
+        
+        var retornoAlteracao = this.Usuarios.adicionaAssinatura(id,Number(dias))
+
+        var retorno = new RetornoUsuarioDTO('Alteração Efetuada',retornoAlteracao);        
+        return retorno;    
+        
+    }
+
     @Delete('/:id')//linha que define o método vai ser de exclusão (delete), nesse caso também é especificado um parametro na URL, por onde vai chegar o id do usuário
     @ApiResponse({status: 200, description:'Retorna que houve sucesso na exclusão'})
     @ApiResponse({status: 500, description:'Retorna que houve erro na exclusão.'})
@@ -98,6 +114,20 @@ export class UsuarioController{
 
         return {
                 Usuario: ListaRetorno
+            };
+    }
+
+    @Get('/assinatura/:ID')//criação de método GET, para retornar usuários filtrados pelo ID, onde é necessário passar o ID do usuário pelo url 
+    @ApiResponse({status: 200, description:'Retorna que houve sucesso na consulta'})
+    @ApiResponse({status: 500, description:'Retorna que houve erro na consulta.'})
+    async retornaAssinatura(@Param('ID') ID:string){
+        //aqui é feita a pesquisa do usuário, depois é criado mapeado os dados desse usuário para um retorno padrão (lista usuario DTO)
+        var usuariosListados = this.Usuarios.pesquisaId(ID);
+        
+        var diferenca = this.objDatas.diferencaDias(usuariosListados.assinatura)
+
+        return {
+                validadeAssinatura: diferenca
             };
     }
 

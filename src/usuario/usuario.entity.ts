@@ -6,10 +6,11 @@ export class UsuarioEntity{
     cidade: string;
     email: string;
     telefone: string;
+    assinatura: Date; 
     senha: string; 
     
     constructor(id: string,nome: string,idade: number,cidade: string,email: string,
-                    telefone: string,senha: string){
+                    telefone: string,assinatura: Date,senha: string){
         this.id = id;
         this.nome = nome;
         this.idade = idade;
@@ -17,5 +18,6 @@ export class UsuarioEntity{
         this.email = email;
         this.telefone = telefone;
         this.senha = senha;
+        this.assinatura = assinatura; 
     }
 }

@@ -2,17 +2,20 @@
 import { Injectable } from "@nestjs/common";
 import { UsuarioEntity } from "./usuario.entity";
 import { alteraUsuarioDTO } from "./dto/alteraUsuario.dto";
+import Datas from "src/utils/data";
 
 //Decorator responsável por informar que essa classe pode ser injetada em outras classes, podendo assim ser administrada pelo modulo
 @Injectable()
 export class UsuariosArmazenados{
     //Criação de vetor para armazenar os usuários (apenas em memoria, quando reiniciar a API perde tudo)
-    #usuarios: UsuarioEntity[] = [];  
+    #usuarios: UsuarioEntity[] = []; 
+    objDatas: Datas; 
   
 
     //funçaço responsável por guardar o usuário no vetor
     AdicionarUsuario(usuario: UsuarioEntity){
         this.#usuarios.push(usuario);
+        this.objDatas = new Datas();
     }
 
     //função responsável por remover o usuário
@@ -72,6 +75,13 @@ export class UsuariosArmazenados{
 
         return usuario;
         
+    }
+
+    adicionaAssinatura(id:string ,dias: number){
+        const usuario = this.pesquisaId(id);
+
+        usuario.assinatura = this.objDatas.adicionarDias(usuario.assinatura,dias);
+        return usuario
     }
 
     //função para validar se o email passado ja existe em outro usuário, é usada em geral para o email unico validator

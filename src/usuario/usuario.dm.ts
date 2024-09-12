@@ -66,10 +66,15 @@ export class UsuariosArmazenados{
                 //aqui é validado se o campo a ser alterado vai ser o ID, se for ele ignora, pois não se pode alterar o ID
                 if(chave === 'id'){
                     return
+                }else if(chave === 'senha'){
+                    usuario.trocaSenha(valor)
+                }else{
+                    //caso não seja nenhum campo especial, é feito só a alteração direta do valor do campo com base no valor passado 
+                    usuario[chave] = valor;
                 }
 
-                //caso não seja nenhum campo especial, é feito só a alteração direta do valor do campo com base no valor passado 
-                usuario[chave] = valor;
+                
+                
             }
         )
 
@@ -95,19 +100,12 @@ export class UsuariosArmazenados{
     Login(email:string ,senha:string){
         //primeiro é pesquisado o usuário por meio do email
         const possivelUsuario = this.pesquisaEmail(email)
-        //caso encontre o usuário é validada então a senha, caso contrário ja retorna erro de login
-        if (possivelUsuario){
-            return {
-                //aqui é validada a senha, caso a senha esteja correta, é retornado os dados do usuário e também o status (true para correto, false para incorreto)
-                usuario: possivelUsuario.senha == senha?possivelUsuario:null,
-                status: possivelUsuario.senha == senha
-            };
-        }else{
-            return {
-                usuario: null,
-                status: false
-            };
-        }
+
+        return {
+            //aqui é validada a senha, caso a senha esteja correta, é retornado os dados do usuário e também o status (true para correto, false para incorreto)
+            usuario: possivelUsuario.login(senha)?possivelUsuario:null,
+            status: possivelUsuario.login(senha)
+        };
     }
 
     

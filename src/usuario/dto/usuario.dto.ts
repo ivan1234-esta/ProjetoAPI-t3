@@ -4,6 +4,7 @@
 import { IsEmail, IsNotEmpty, IsNumber, IsString, MinLength } from "class-validator";
 import { EmailUnico } from "../validacao/email-unico.validator";
 import { ApiProperty } from "@nestjs/swagger";
+import { SenhaForte } from "../validacao/strongpass.validator";
 
 export class criaUsuarioDTO{
     @IsString()
@@ -22,11 +23,12 @@ export class criaUsuarioDTO{
     })
     email: string;
 
-    @MinLength(6, {message: "senha deve ter no minimo 6 digitos"})
+    @MinLength(8, {message: "senha deve ter no minimo 8 digitos"})
     @ApiProperty({
-        example: "senha123",
-        description: "Senha do usuário, deve ter pelo menos 6 digitos"
+        example: "Senha@444151241",
+        description: "Senha do usuário, deve ter pelo menos 8 digitos, tendo numeros, letras e caracteres especiais"
     })
+    @SenhaForte({message:"Senha deve ter complexidade maior. Está muito fraca"})
     senha:string;
     
     @IsNumber()

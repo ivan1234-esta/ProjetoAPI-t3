@@ -11,33 +11,33 @@ export class criaFilmeDTO{
         example: "A volta dos que não foram",
         description: "Nome do filme, deve ser informado um texto contendo o nome"
     })
-    nome: string;
+    NOME: string;
 
     @IsNumber()
     @ApiProperty({
         example: "120",
         description: "Duração do filme em minutos, deve ser informado como number"
     })
-    duracao: number;
+    DURACAO: number;
 
     @IsString()
     @ApiProperty({
         example: "Um filme que conta a historia de ......",
         description: "Sinopse do filme que está sendo inserido"
     })
-    sinopse: string;
+    SINOPSE: string;
 
     @IsString()
     @ApiProperty({
         example: "1990",
         description: "Ano de lançamento do filme, deve ser informado como texto"
     })
-    ano: string;
+    ANO: string;
 
     @IsString()
     @ApiProperty({
-        example: "Ação",
-        description: "Genero do filme a ser inserido"
+        example: "1a057a24-8b3b-444a-b305-dad891d363f7",
+        description: "ID do Genero do filme a ser inserido"
     })
-    genero: string;
+    GENERO: string;
 }

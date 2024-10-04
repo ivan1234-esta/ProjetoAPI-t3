@@ -3,11 +3,12 @@
 import { Module } from '@nestjs/common';
 import { UsuarioModule } from './usuario/usuario.module';
 import { FilmeModule } from './filmes/filme.module';
+import { GeneroModule } from './genero/genero.module';
 
 
 
 @Module({
-  imports: [UsuarioModule,FilmeModule],
+  imports: [UsuarioModule,FilmeModule,GeneroModule],
   controllers: [],
   providers: [],
 })

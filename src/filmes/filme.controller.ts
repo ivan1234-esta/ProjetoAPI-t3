@@ -8,6 +8,8 @@ import { alteraFilmeDTO } from "./dto/alteraFilme.dto";
 import { ListaFilmeDTO, ListagemFilmesDTO } from "./dto/listaFilme.dto";
 import { FilmeService } from "./filme.service";
 import { RetornoCadastroDTO } from "src/dto/retorno.dto";
+import { atorFilmeDTO } from "./dto/atorFilme.dto";
+import { RetornoElencoDTO } from "src/filme_pessoa/dto/retornoElenco.dto";
 
 @ApiTags('filme')
 //decorator responsável por definir que essa classe é um controller, dentro do parenteses é necessário informar o URL desse controller
@@ -48,7 +50,7 @@ export class FilmeController{
         
     }
 
-    @Delete('/:id')//linha que define o método vai ser de exclusão (delete), nesse caso também é especificado um parametro na URL, por onde vai chegar o id do usuário
+    @Delete('/ID:id')//linha que define o método vai ser de exclusão (delete), nesse caso também é especificado um parametro na URL, por onde vai chegar o id do usuário
     @ApiResponse({status: 200, description:'Retorna que houve sucesso na exclusão'})
     @ApiResponse({status: 500, description:'Retorna que houve erro na exclusão.'})
     async removeFilme(@Param('id') id: string){//aqui é definido que vai receber dados da URL(param)
@@ -73,5 +75,20 @@ export class FilmeController{
     async retornaFilme(): Promise <ListaFilmeDTO[]>{
         //Aqui são pesquisados os usuários a serem listados, depois é feito um mapeamento de dados para retornar as informações no padrão de resposta esperado (listaFilmeDTO)
         return this.filmeService.listar();
+    }
+
+    @Post('/ator/')
+    async addAtor( @Body() dados: atorFilmeDTO):Promise<RetornoCadastroDTO>{
+        return this.filmeService.addAtor(dados);        
+    }
+
+    @Delete('/ator/')
+    async removeAtor( @Body() dados: atorFilmeDTO):Promise<RetornoCadastroDTO>{
+        return this.filmeService.removeAtor(dados);        
+    }
+
+    @Get('/ator/:id')
+    async listaElencoFilme( @Param('id') id: string):Promise<RetornoElencoDTO>{
+        return this.filmeService.listarAtor(id);        
     }
 }

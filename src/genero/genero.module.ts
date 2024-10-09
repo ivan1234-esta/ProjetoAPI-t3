@@ -12,8 +12,6 @@ import { FilmeService } from 'src/filmes/filme.service';
   providers: [
     ...generoProviders,
     GeneroService,
-    ...filmeProviders,
-    FilmeService
   ],
 })
 export class GeneroModule {}

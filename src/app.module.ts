@@ -9,7 +9,7 @@ import { PessoaModule } from './pessoa/pessoa.module';
 
 
 @Module({
-  imports: [UsuarioModule,FilmeModule,GeneroModule,PessoaModule],
+  imports: [UsuarioModule,FilmeModule,PessoaModule,GeneroModule],
   controllers: [],
   providers: [],
 })

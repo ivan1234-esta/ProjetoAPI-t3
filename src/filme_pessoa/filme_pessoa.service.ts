@@ -47,7 +47,7 @@ export class FILME_PESSOAService {
         .then((result) => {
         return <RetornoCadastroDTO>{
             id: filme_pessoa.ID,
-            message: "FILME_PESSOA cadastrado!"
+            message: "FILME_PESSOA REMOVIDO!"
         };
         })
         .catch((error) => {

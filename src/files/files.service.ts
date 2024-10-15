@@ -3,6 +3,7 @@ import { FILES } from './files.entity';
 import { Request } from 'express';
 import { Repository } from 'typeorm';
 import { RetornoCadastroDTO } from 'src/dto/retorno.dto';
+import * as path from 'path';
 
 @Injectable()
 export class FilesService {
@@ -14,11 +15,11 @@ export class FilesService {
   
   async salvarDados(file: Express.Multer.File, req: Request) {
     const arquivo = new FILES();
-    var nome = file.filename;
-    var nome2 = nome.split('_id_');
-    var nome3 = nome.path.parse(file.originalname).exts
-    arquivo.ID = nome2[1];
-    arquivo.FILENAME = nome2[0];
+    
+    var nome = file.filename.split('_id_');
+
+    arquivo.ID = nome[0];
+    arquivo.FILENAME = file.originalname;
     arquivo.CONTENTLENGTH = file.size;
     arquivo.CONTENTTYPE = file.mimetype;
     arquivo.URL = `${file.filename}`;

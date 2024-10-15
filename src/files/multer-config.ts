@@ -6,8 +6,8 @@ const multerConfig = {
   storage: diskStorage({
     destination: './upload/',
     filename: (req, file, cb) => {
-      const fileName =
-        path.parse(file.originalname).name.replace(/\s/g, '') + '_id_' + uuidv4();
+      const fileName = uuidv4() + '_id_' +
+        path.parse(file.originalname).name.replace(/\s/g, '') ;
 
       const extension = path.parse(file.originalname).ext;
       cb(null, `${fileName}${extension}`);

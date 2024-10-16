@@ -10,8 +10,7 @@ export class FilesService {
     constructor(
         @Inject('FILES_REPOSITORY')
         private filesRepository: Repository<FILES>
-        ) {}
-  arquivos = [];  
+        ) {}  
   
   async salvarDados(file: Express.Multer.File, req: Request) {
     const arquivo = new FILES();

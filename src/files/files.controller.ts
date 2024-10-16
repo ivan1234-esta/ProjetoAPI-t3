@@ -1,5 +1,4 @@
 import {Controller,Post,UseInterceptors,UploadedFile,Req, Get, Param, Res} from '@nestjs/common';
-
 import { FileInterceptor } from '@nestjs/platform-express';
 import multerConfig from './multer-config';
 import { Request } from 'express';

@@ -1,4 +1,5 @@
 import * as bcrypt from 'bcrypt';
+import { FILES } from 'src/files/files.entity';
 import { PESSOA } from 'src/pessoa/pessoa.entity';
 import { Column, Entity, JoinColumn, OneToOne, PrimaryColumn } from 'typeorm';
 
@@ -17,16 +18,26 @@ export class USUARIO{
     @Column({length: 255})
     TELEFONE: string;
 
-    @Column({ type: 'date' })
+    @Column({ type: 'datetime' })
     ASSINATURA: Date; 
 
     @Column({length: 255})
     SENHA: string; 
 
+    @Column({length: 255})
+    IDPESSOA: string; 
+
+    @Column({length: 255})
+    FOTO:string;
+
 
     @OneToOne(() => PESSOA)
     @JoinColumn({ name: 'IDPESSOA', referencedColumnName:'ID'})
     PESSOA: PESSOA;
+
+    @OneToOne(() => FILES)
+    @JoinColumn({ name: 'FOTO', referencedColumnName:'ID'})
+    FILE: FILES;
   
     trocaSenha(senha){
         const saltOrRounds = 10;

@@ -1,9 +1,9 @@
 //DTO responsável por receber dados de criação de um novo usuário
 //DTO é "data transfer object" ou objeto de transferencia de dados, ou seja, é um tipo de classe para transferir dados
 
-import { IsEmail, IsNotEmpty, IsNumber, IsString, MinLength } from "class-validator";
+import { IsEmail, IsNotEmpty, IsNumber, IsOptional, IsString, MinLength } from "class-validator";
 import { EmailUnico } from "../validacao/email-unico.validator";
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import { SenhaForte } from "../validacao/strongpass.validator";
 import { CriaPessoaDTO } from "src/pessoa/dto/criaPessoa.dto";
 
@@ -40,7 +40,20 @@ export class criaUsuarioDTO{
     TELEFONE: string;
 
     @IsNotEmpty()
+    @ApiProperty({
+        example: '{"NOME": "JOAO" , "NASCIMENTO": "1995-01-01", "PAIS":"BRASIL"}',
+        description: "DADOS do usuário, deve ser informado um objeto com os dados descritos"
+    })
     PESSOA: CriaPessoaDTO;
+
+    @IsNotEmpty()
+    @IsString()
+    @IsOptional()
+    @ApiPropertyOptional({
+        example: '8e42a2a5-56c8-4f2f-a3ea-eed61beffe05',
+        description: "ID Da foto do usuário, que deve ser inserido pelo modulo de FILES, depois enviado o ID."
+    })
+    FOTO: string;
     
 
 

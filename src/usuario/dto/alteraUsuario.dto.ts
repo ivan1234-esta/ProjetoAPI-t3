@@ -25,14 +25,6 @@ export class alteraUsuarioDTO{
     @IsOptional()
     @SenhaForte({message:"Senha deve ter complexidade maior. Está muito fraca"})
     SENHA:string;
-    
-    @IsNumber()
-    @IsOptional()
-    @ApiPropertyOptional({
-        example: "1990",
-        description: "Ano de nascimento do usuário, deve ser informado como Numero(number)"
-    })
-    IDADE: number;
 
     @IsString()
     @IsOptional()
@@ -51,6 +43,19 @@ export class alteraUsuarioDTO{
     TELEFONE: string;
 
     @IsOptional()
+    @ApiPropertyOptional({
+        example: '{"NOME": "JOAO" , "NASCIMENTO": "1995-01-01", "PAIS":"BRASIL"}',
+        description: "DADOS do usuário, deve ser informado um objeto com os dados descritos"
+    })
     PESSOA: AlteraPessoaDTO;
     
+
+    @IsNotEmpty()
+    @IsString()
+    @IsOptional()
+    @ApiPropertyOptional({
+        example: '8e42a2a5-56c8-4f2f-a3ea-eed61beffe05',
+        description: "ID Da foto do usuário, que deve ser inserido pelo modulo de FILES, depois enviado o ID."
+    })
+    FOTO: string;
 }

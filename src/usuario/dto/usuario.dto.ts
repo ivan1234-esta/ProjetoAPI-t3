@@ -5,15 +5,9 @@ import { IsEmail, IsNotEmpty, IsNumber, IsString, MinLength } from "class-valida
 import { EmailUnico } from "../validacao/email-unico.validator";
 import { ApiProperty } from "@nestjs/swagger";
 import { SenhaForte } from "../validacao/strongpass.validator";
+import { CriaPessoaDTO } from "src/pessoa/dto/criaPessoa.dto";
 
 export class criaUsuarioDTO{
-    @IsString()
-    @IsNotEmpty({message: "nome não pode ser vazio"})
-    @ApiProperty({
-        example: "Joao",
-        description: "Nome do usuário, deve ser informado um texto contendo o nome"
-    })
-    nome: string;
 
     @EmailUnico({message: "Email repetido"})
     @IsEmail(undefined, {message: "email inválido"})
@@ -21,7 +15,7 @@ export class criaUsuarioDTO{
         example: "joao@teste.com",
         description: "Email do usuário, deve ser informado um email válido e que não se repita"
     })
-    email: string;
+    EMAIL: string;
 
     @MinLength(8, {message: "senha deve ter no minimo 8 digitos"})
     @ApiProperty({
@@ -29,26 +23,25 @@ export class criaUsuarioDTO{
         description: "Senha do usuário, deve ter pelo menos 8 digitos, tendo numeros, letras e caracteres especiais"
     })
     @SenhaForte({message:"Senha deve ter complexidade maior. Está muito fraca"})
-    senha:string;
-    
-    @IsNumber()
-    @ApiProperty({
-        example: "1990",
-        description: "Ano de nascimento do usuário, deve ser informado como Numero(number)"
-    })
-    idade: number;
+    SENHA:string;
 
     @IsString()
     @ApiProperty({
         example: "Bauru",
         description: "Cidade do usuário, deve ser informado um texto com a cidade"
     })
-    cidade: string;
+    CIDADE: string;
 
     @IsString()
     @ApiProperty({
         example: "12123412349",
         description: "Telefone do usuário, deve ser informado um texto apenas com os numeros do telefone"
     })
-    telefone: string;
+    TELEFONE: string;
+
+    @IsNotEmpty()
+    PESSOA: CriaPessoaDTO;
+    
+
+
 }

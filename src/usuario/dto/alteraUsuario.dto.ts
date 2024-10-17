@@ -4,19 +4,9 @@ import { IsEmail, IsNotEmpty, IsNumber, IsOptional, IsString, MinLength } from "
 import { EmailUnico } from "../validacao/email-unico.validator";
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import { SenhaForte } from "../validacao/strongpass.validator";
+import { AlteraPessoaDTO } from "src/pessoa/dto/atualizaPessoa.dto";
 
 export class alteraUsuarioDTO{
-
-    //decorators de tipo e validação, são responsáveis por darem padrão e validar informações importantes nos DTOs
-    //podem ser prédefinidos ou podem ser criados de forma customizada(exemplo email unico)
-    @IsString()
-    @IsNotEmpty({message: "nome não pode ser vazio"})
-    @IsOptional()
-    @ApiPropertyOptional({
-        example: "Joao",
-        description: "Nome do usuário, deve ser informado um texto contendo o nome"
-    })
-    nome: string;
 
     @EmailUnico({message: "Email repetido"})
     @IsEmail(undefined, {message: "email inválido"})
@@ -25,7 +15,7 @@ export class alteraUsuarioDTO{
         example: "joao@teste.com",
         description: "Email do usuário, deve ser informado um email válido e que não se repita"
     })
-    email: string;
+    EMAIL: string;
 
     @MinLength(8, {message: "senha deve ter no minimo 8 digitos"})
     @ApiPropertyOptional({
@@ -34,7 +24,7 @@ export class alteraUsuarioDTO{
     })
     @IsOptional()
     @SenhaForte({message:"Senha deve ter complexidade maior. Está muito fraca"})
-    senha:string;
+    SENHA:string;
     
     @IsNumber()
     @IsOptional()
@@ -42,7 +32,7 @@ export class alteraUsuarioDTO{
         example: "1990",
         description: "Ano de nascimento do usuário, deve ser informado como Numero(number)"
     })
-    idade: number;
+    IDADE: number;
 
     @IsString()
     @IsOptional()
@@ -50,7 +40,7 @@ export class alteraUsuarioDTO{
         example: "Bauru",
         description: "Cidade do usuário, deve ser informado um texto com a cidade"
     })
-    cidade: string;
+    CIDADE: string;
 
     @IsString()
     @IsOptional()
@@ -58,5 +48,9 @@ export class alteraUsuarioDTO{
         example: "12123412349",
         description: "Telefone do usuário, deve ser informado um texto apenas com os numeros do telefone"
     })
-    telefone: string;
+    TELEFONE: string;
+
+    @IsOptional()
+    PESSOA: AlteraPessoaDTO;
+    
 }

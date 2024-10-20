@@ -48,7 +48,7 @@ export class GeneroService {
     });
   }
 
-  localizarNome(NOME: string): Promise<GENERO> {
+  localizarNOME(NOME: string): Promise<GENERO> {
     return this.generoRepository.findOne({
       where: {
         NOME,

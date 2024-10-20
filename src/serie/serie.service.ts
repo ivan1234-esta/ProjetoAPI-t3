@@ -14,9 +14,28 @@ export class SerieService {
     private serieRepository: Repository<SERIE>,
   ) {}
 
-  async listar(): Promise<SERIE[]> {
-    return this.serieRepository.find();
-  }
+  async listar(): Promise<any[]> {
+    const seriesListadas = await this.serieRepository
+        .createQueryBuilder('serie')
+        .leftJoinAndSelect('serie.filmes', 'filme')  
+        .leftJoinAndSelect('filme.genero', 'genero')  
+        .select([
+            'serie.ID',
+            'serie.NOMESERIE',
+            'serie.TEMPORADA',
+            'serie.EPISODIO',
+            'genero.NOME'  
+        ])
+        .getRawMany(); 
+
+    return seriesListadas.map(serie => ({
+        id: serie.serie_ID,
+        nomeSerie: serie.serie_NOMESERIE,
+        temporada: serie.serie_TEMPORADA,
+        episodio: serie.serie_EPISODIO,
+        nomeGenero: serie.genero_NOME 
+    }));
+}
 
   async inserir(dados: CriaSerieDTO): Promise<RetornoCadastroDTO>{
     let serie = new SERIE();

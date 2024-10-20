@@ -7,7 +7,8 @@ export class ListaFilmeDTO{
             readonly id: string, 
             readonly nome:string,
             readonly duracao: number,
-            readonly sinopse: string
+            readonly sinopse: string,
+            readonly genero: string | null
     ){}
 }
 
@@ -16,3 +17,4 @@ export class ListagemFilmesDTO{
         readonly filme: ListaFilmeDTO[],
     ){}
 }
+

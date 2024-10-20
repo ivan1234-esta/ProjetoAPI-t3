@@ -22,10 +22,10 @@ export class FILME{
     ANO: string;
     
     @ManyToOne(() => GENERO, genero => genero.filmes)
-    @JoinColumn({ name: 'IDGENERO', referencedColumnName:'ID'})
+    @JoinColumn({ name: 'IDGENERO', referencedColumnName: 'ID' })
     genero: GENERO;
 
-    @OneToOne(() => SERIE, serie => serie.filmes)
+   @OneToOne(() => SERIE, serie => serie.filmes)
     @JoinColumn({ name: 'IDFILME', referencedColumnName:'ID'})
     serie: SERIE;
 

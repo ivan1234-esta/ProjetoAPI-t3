@@ -45,16 +45,20 @@ export class FilmeService {
 
 
   async listar(): Promise<ListaFilmeDTO[]> {
-    var filmesListados = await this.filmeRepository.find();
-    return filmesListados.map(
-      filme => new ListaFilmeDTO(
-          filme.ID,
-          filme.NOME,
-          filme.DURACAO,
-          filme.SINOPSE
-      ))
-        
-  }
+    const filmesListados = await this.filmeRepository
+        .createQueryBuilder('filme')
+        .leftJoinAndSelect('filme.genero', 'genero') 
+        .getMany(); 
+
+    return filmesListados.map(filme => new ListaFilmeDTO(
+        filme.ID,
+        filme.NOME,
+        filme.DURACAO,
+        filme.SINOPSE,
+        filme.genero ? filme.genero.NOME : null 
+    ));
+}
+
 
   async Compartilhar(id: string){
     var filme = await (this.filmeRepository 
@@ -65,7 +69,7 @@ export class FilmeService {
       .addSelect('filme.ANO','ANO')
       .addSelect('filme.DURACAO','DURACAO')
       .addSelect('gen.NOME','GENERO')
-      .leftJoin('genero', 'gen','filme.idgenero = gen.id')      
+      .leftJoin('genero', 'gen','filme.idgenero = gen.NOME')      
       .andWhere('filme.ID = :ID',{ ID: `${id}` })               
       .getRawOne());
 
@@ -81,7 +85,7 @@ export class FilmeService {
         filme.ANO = dados.ANO;
         filme.DURACAO = dados.DURACAO;
         filme.SINOPSE = dados.SINOPSE;
-        filme.genero = await this.generoService.localizarID(dados.GENERO);
+        filme.genero = await this.generoService.localizarNOME(dados.GENERO);
 
     return this.filmeRepository.save(filme)
     .then((result) => {

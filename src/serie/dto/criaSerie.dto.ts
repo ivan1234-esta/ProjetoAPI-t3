@@ -9,4 +9,8 @@ export class CriaSerieDTO{
     @IsString()
     @IsNotEmpty({message: "Temporada não pode ser vazio"})
     TEMPORADA: string;
+
+    @IsString()
+    @IsNotEmpty({message: "Episodio não pode ser vazio"})
+    EPISODIO: string;
 }

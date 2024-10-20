@@ -6,11 +6,12 @@ import { FilmeModule } from './filmes/filme.module';
 import { GeneroModule } from './genero/genero.module';
 import { PessoaModule } from './pessoa/pessoa.module';
 import { FilesModule } from './files/files.module';
+import { SerieModule } from './serie/serie.module';
 
 
 
 @Module({
-  imports: [UsuarioModule,FilmeModule,PessoaModule,GeneroModule,FilesModule],
+  imports: [UsuarioModule,FilmeModule,PessoaModule,SerieModule,GeneroModule,FilesModule],
   controllers: [],
   providers: [],
 })

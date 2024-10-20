@@ -1,7 +1,7 @@
-export class listaGeneroDTO{
+export class listaSerieDTO{
     constructor(
-        readonly ID:string,
         readonly NOMESERIE: string,
-        readonly TEMPORADA: string
+        readonly TEMPORADA: string,
+        readonly EPISODIO: string
     ){}
 }

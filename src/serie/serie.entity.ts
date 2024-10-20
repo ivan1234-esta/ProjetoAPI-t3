@@ -1,5 +1,5 @@
 import { FILME } from "src/filmes/filme.entity";
-import { Column, Entity, OneToOne, PrimaryColumn } from "typeorm";
+import { Column, Entity, OneToOne, PrimaryColumn, JoinColumn } from "typeorm";
 
 @Entity()
 export class SERIE{
@@ -16,5 +16,12 @@ export class SERIE{
     EPISODIO: string;
 
     @OneToOne(()=> FILME, filme => filme.serie)
-    filmes: FILME[];
+    @JoinColumn({ name: 'IDFILME', referencedColumnName: 'ID' })
+    filmes: FILME;
+
+    getGenero(): string {
+        return this.filmes.genero.NOME;
+  }
 }
+
+

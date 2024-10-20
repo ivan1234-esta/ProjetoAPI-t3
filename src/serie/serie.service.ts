@@ -10,12 +10,12 @@ import { RetornoCadastroDTO, RetornoObjDTO } from 'src/dto/retorno.dto';
 @Injectable()
 export class SerieService {
   constructor(
-    @Inject('GENERO_REPOSITORY')
-    private generoRepository: Repository<SERIE>,
+    @Inject('SERIE_REPOSITORY')
+    private serieRepository: Repository<SERIE>,
   ) {}
 
   async listar(): Promise<SERIE[]> {
-    return this.generoRepository.find();
+    return this.serieRepository.find();
   }
 
   async inserir(dados: CriaSerieDTO): Promise<RetornoCadastroDTO>{
@@ -24,7 +24,7 @@ export class SerieService {
     serie.NOMESERIE = dados.NOMESERIE;
     serie.TEMPORADA = dados.TEMPORADA;
 
-    return this.generoRepository.save(serie)
+    return this.serieRepository.save(serie)
     .then((result) => {
       return <RetornoCadastroDTO>{
         id: serie.ID,
@@ -40,7 +40,7 @@ export class SerieService {
   }
 
   localizarID(ID: string): Promise<SERIE> {
-    return this.generoRepository.findOne({
+    return this.serieRepository.findOne({
       where: {
         ID,
       },
@@ -48,7 +48,7 @@ export class SerieService {
   }
 
   localizarNome(NOMESERIE: string): Promise<SERIE> {
-    return this.generoRepository.findOne({
+    return this.serieRepository.findOne({
       where: {
         NOMESERIE,
       },
@@ -59,7 +59,7 @@ export class SerieService {
   async remover(id: string): Promise<RetornoObjDTO> {
     const serie = await this.localizarID(id);
     
-    return this.generoRepository.remove(serie)
+    return this.serieRepository.remove(serie)
     .then((result) => {
       return <RetornoObjDTO>{
         return: serie,
@@ -74,6 +74,22 @@ export class SerieService {
     });  
   }
 
+  async Compartilhar(id: string){
+    var serie = await (this.serieRepository 
+      .createQueryBuilder('Serie')
+      .select('serie.ID', 'ID')
+      .addSelect('serie.NOME','NOME_SERIE')
+      .addSelect('serie.SINOPSE','SINOPSE')
+      .addSelect('serie.ANO','ANO')
+      .andWhere('serie.ID = :ID',{ ID: `${id}` })               
+      .getRawOne());
+
+    return{            
+      message: `Estou assistindo a serie ${serie.NOME_SERIE} que é do genero ${serie.GENERO} que conta a seguinte história: ${serie.SINOPSE} foi lançado em ${serie.ANO} e tem duração de ${serie.DURACAO} minutos. Assista também!!` 
+    }
+  }
+
+
   async alterar(id: string, dados: AlteraSerieDTO): Promise<RetornoCadastroDTO> {
     const serie = await this.localizarID(id);
 
@@ -87,7 +103,7 @@ export class SerieService {
       }
     )
 
-    return this.generoRepository.save(serie)
+    return this.serieRepository.save(serie)
     .then((result) => {
       return <RetornoCadastroDTO>{
         id: serie.ID,
